@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Все изображения{% endblock %}
+{% block header %}Все изображения{% endblock %}
+{% block content %}
+    <h3><a href="{% url 'new_image' %}"> Добавить новое изображение </a></h3><br>
+    {% load thumbnail %}
+    <div>
+        {% for item in page %}
+            {{ item.name }}
+            {% thumbnail item as im %}
+                <a name="image_{{ item.id }}" href="{% url 'image' item.id %}">
+                    {{ item.name }}
+                </a>
+            {% endthumbnail %}
+            <br>
+        {% empty %} Нет доступных изображений <br>
+        {% endfor %}
+
+        <br>
+        {% if items.has_previous %}
+            <a href="?page={{ items.previous_page_number }}">&laquo; Предыдущая</a>
+        {% else %}
+            <a href="#" tabindex="-1" aria-disabled="true">&laquo; Предыдущая</a>
+        {% endif %}
+        <br>
+        {% for i in paginator.page_range %}
+            {% if items.number == i %}
+                <span>{{ i }} <span class="sr-only">(текущая)</span></span>
+            {% else %}
+                <a href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+        <br>
+        {% if items.has_next %}
+            <a href="?page={{ items.next_page_number }}">Следующая &raquo;</a>
+        {% else %}
+            <a href="#" tabindex="-1" aria-disabled="true">Следующая &raquo;</a>
+        {% endif %}
+
+    </div>
+{% endblock %}

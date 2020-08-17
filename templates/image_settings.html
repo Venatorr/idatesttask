@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}
+    Просмотр и правка изображения
+{% endblock %}
+{% block content %}
+    {% load thumbnail %}
+    <div>
+
+        <a href="{% url 'index' %}">Назад к списку</a>
+
+        {% for error in form.errors.values %}
+            <div>
+                {{ error|escape }}
+            </div>
+        {% endfor %}
+        <form method="post" action="{% url 'image' image.id %}">
+            {% csrf_token %}
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}">
+                        {{ field.label }}:
+                </label>
+                <br>
+                {{ field }}
+                <br><br>
+            {% endfor %}
+            {% thumbnail image.image "1000x1000" crop="center" upscale=False as im %}
+                <img id="image_{{ image.id }}" src="{{ im.url }}">
+            {% endthumbnail %}
+            <br>
+
+            <div>
+                <button type="submit">Поменять размер</button>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

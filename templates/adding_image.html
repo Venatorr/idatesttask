@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    Добавление нового изображения
+{% endblock %}
+{% block content %}
+
+    <a href="{% url 'index' %}">Назад к списку</a>
+
+    {% for error in form.errors.values %}
+        <div>
+            {{ error|escape }}
+        </div>
+    {% endfor %}
+
+    <div>
+        <form method="post" enctype="multipart/form-data"
+              action="{% url 'new_image' %}" >
+            {% csrf_token %}
+            {% for field in form %}
+                <div aria-required={% if field.field.required %} "true"{% else %}"false"{% endif %}>
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                        {% if field.field.required %}
+                        <span>*</span>
+                        {% endif %}
+                    </label>
+                    <br>
+                    <div>
+                        {{ field }}
+                        <br>
+                        {% if field.help_text %}
+                        <small id="{{ field.id_for_label }}-help">
+                            {{ field.help_text|safe }}
+                        </small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <br>
+            <div>
+                <button type="submit">Добавить</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
