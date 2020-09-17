@@ -10,4 +10,5 @@ Django приложение
 1) Установить виртуальное окружение: python -m venv venv
 2) Активировать виртуальное окружение с помощью venv\Scripts\activate.bat
 3) С активированным виртуальным окружением установить библиотеки: pip install -r requirements.txt
-4) Запустить сервер: python manage.py runserver
+4) Выполнить миграции: python manage.py migrate
+5) Запустить сервер: python manage.py runserver
